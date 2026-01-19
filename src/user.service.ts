@@ -1,10 +1,10 @@
+import { UserDto } from '@cdm/models';
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as argon2 from 'argon2';
 import { Repository } from 'typeorm';
 import { UserBody } from './objects/body/user.body';
 import { SetRefreshTokenDto } from './objects/dto/set-refresh-token.dto';
-import { UserDto } from './objects/dto/user.dto';
 import { UserEntity } from './objects/entities/user.entity';
 
 @Injectable()

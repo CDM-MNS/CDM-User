@@ -1,7 +1,6 @@
+import { UserDto, UserRoleType } from '@cdm/models';
 import { Exclude } from 'class-transformer';
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from 'typeorm';
-import { UserDto } from '../dto/user.dto';
-import { UserRoleType } from '../enums/user-role.enum';
 
 @Entity()
 export class UserEntity {
