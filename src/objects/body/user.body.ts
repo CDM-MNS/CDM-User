@@ -15,9 +15,7 @@ export class UserBody {
   @MinLength(10)
   password: string;
 
-  @IsNotEmpty()
-  refreshToken: string;
-
   @IsEnum(UserRoleType)
   role: UserRoleType;
+  
 }
