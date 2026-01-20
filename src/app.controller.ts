@@ -5,12 +5,18 @@ import { SetRefreshTokenDto } from './objects/dto/set-refresh-token.dto';
 import { UserService } from './user.service';
 import { RpcValidationPipe } from './utils/rpc-validation';
 
+
 @Controller('user')
 export class AppController {
     constructor(private readonly userService: UserService) { }
 
-    @MessagePattern({ cmd: 'user.findOne' })
-    findOneUserFromEvent(@Payload(new RpcValidationPipe()) data: { email: string }) {
+    @MessagePattern({ cmd: 'user.findOneById' })
+    findOneUserByIdFromEvent(@Payload(new RpcValidationPipe()) data: { id: number }) {
+        return this.userService.findOneById(data.id);
+    }
+
+    @MessagePattern({ cmd: 'user.findOneByEmail' })
+    findOneUserByEmailFromEvent(@Payload(new RpcValidationPipe()) data: { email: string }) {
         return this.userService.findOneByEmail(data.email);
     }
 
