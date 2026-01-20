@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { UserEntity } from './objects/entities/user.entity';
 import { UserService } from './user.service';
+import { ClientsModule, Transport } from '@nestjs/microservices';
 
 @Module({
     imports: [
@@ -21,6 +22,17 @@ import { UserService } from './user.service';
             synchronize: true // TODO: process.env.POSTGRES_SYNCHRONISE === 'true',
         }),
         TypeOrmModule.forFeature([UserEntity]),
+        ClientsModule.register([
+            {
+                name: 'WALLET_SERVICE',
+                transport: Transport.RMQ,
+                options: {
+                    urls: [process.env.RABBIT_MQ ?? ''],
+                    queue: 'WALLET_QUEUE',
+                    queueOptions: { durable: false },
+                },
+            }
+        ])
     ],
     controllers: [AppController],
     providers: [UserService],
