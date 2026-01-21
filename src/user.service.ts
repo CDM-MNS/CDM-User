@@ -1,12 +1,12 @@
 import { UserDto } from '@cdm/models';
 import { BadRequestException, Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { ClientProxy } from '@nestjs/microservices';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as argon2 from 'argon2';
 import { Repository } from 'typeorm';
 import { UserBody } from './objects/body/user.body';
 import { SetRefreshTokenDto } from './objects/dto/set-refresh-token.dto';
 import { UserEntity } from './objects/entities/user.entity';
-import { ClientProxy } from '@nestjs/microservices';
 
 @Injectable()
 export class UserService {
@@ -46,7 +46,7 @@ export class UserService {
 
         const userSaved = await this.repository.save(userCreated);
 
-        this.walletClient.emit("wallet.create", userSaved);
+        this.walletClient.emit("user.created", userSaved);
         return userSaved.toDto()
     }
 

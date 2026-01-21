@@ -7,31 +7,31 @@ import { RpcValidationPipe } from './utils/rpc-validation';
 
 @Controller('user')
 export class AppController {
-  constructor(private readonly userService: UserService) {}
+    constructor(private readonly userService: UserService) { }
 
-  @MessagePattern({ cmd: 'user.findOneById' })
-  findOneUserByIdFromEvent(
-    @Payload(new RpcValidationPipe()) data: { id: number },
-  ) {
-    return this.userService.findOneById(data.id);
-  }
+    @MessagePattern({ cmd: 'auth.findOneById' })
+    findOneUserByIdFromEvent(
+        @Payload(new RpcValidationPipe()) data: { id: number },
+    ) {
+        return this.userService.findOneById(data.id);
+    }
 
-  @MessagePattern({ cmd: 'user.findOneByEmail' })
-  findOneUserByEmailFromEvent(
-    @Payload(new RpcValidationPipe()) data: { email: string },
-  ) {
-    return this.userService.findOneByEmail(data.email);
-  }
+    @MessagePattern({ cmd: 'auth.findOneByEmail' })
+    findOneUserByEmailFromEvent(
+        @Payload(new RpcValidationPipe()) data: { email: string },
+    ) {
+        return this.userService.findOneByEmail(data.email);
+    }
 
-  @MessagePattern({ cmd: 'user.create' })
-  createUserFromEvent(@Payload(new RpcValidationPipe()) data: UserBody) {
-    return this.userService.create(data);
-  }
+    @MessagePattern({ cmd: 'auth.needUserCreation' })
+    createUserFromEvent(@Payload(new RpcValidationPipe()) data: UserBody) {
+        return this.userService.create(data);
+    }
 
-  @MessagePattern({ cmd: 'user.setRefreshToken' })
-  setRefreshTokenFromEvent(
-    @Payload(new RpcValidationPipe()) data: SetRefreshTokenDto,
-  ) {
-    return this.userService.setRefreshToken(data);
-  }
+    @MessagePattern({ cmd: 'auth.setRefreshToken' })
+    setRefreshTokenFromEvent(
+        @Payload(new RpcValidationPipe()) data: SetRefreshTokenDto,
+    ) {
+        return this.userService.setRefreshToken(data);
+    }
 }
