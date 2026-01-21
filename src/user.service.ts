@@ -1,8 +1,8 @@
-import { UserDto } from '@cdm/models';
 import { BadRequestException, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as argon2 from 'argon2';
+import { UserDto, UserEventType } from 'cdm-models';
 import { Repository } from 'typeorm';
 import { UserBody } from './objects/body/user.body';
 import { SetRefreshTokenDto } from './objects/dto/set-refresh-token.dto';
@@ -46,7 +46,7 @@ export class UserService {
 
         try{
             const userSaved = await this.repository.save(userCreated);
-            this.walletClient.emit("user.created", userSaved.id);
+            this.walletClient.emit(UserEventType.CREATED, userSaved.id);
             return userSaved.toDto()
         } catch (error) {
             throw new BadRequestException(error);

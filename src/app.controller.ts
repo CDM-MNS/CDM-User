@@ -1,5 +1,6 @@
 import { Controller } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
+import { AuthEventType } from 'cdm-models';
 import { UserBody } from './objects/body/user.body';
 import { SetRefreshTokenDto } from './objects/dto/set-refresh-token.dto';
 import { UserService } from './user.service';
@@ -9,26 +10,26 @@ import { RpcValidationPipe } from './utils/rpc-validation';
 export class AppController {
     constructor(private readonly userService: UserService) { }
 
-    @MessagePattern({ cmd: 'auth.findOneById' })
+    @MessagePattern({ cmd: AuthEventType.FIND_ONE_BY_ID })
     findOneUserByIdFromEvent(
         @Payload(new RpcValidationPipe()) data: { id: number },
     ) {
         return this.userService.findOneById(data.id);
     }
 
-    @MessagePattern({ cmd: 'auth.findOneByEmail' })
+    @MessagePattern({ cmd: AuthEventType.FIND_ONE_BY_EMAIL })
     findOneUserByEmailFromEvent(
         @Payload(new RpcValidationPipe()) data: { email: string },
     ) {
         return this.userService.findOneByEmail(data.email);
     }
 
-    @MessagePattern({ cmd: 'auth.needUserCreation' })
+    @MessagePattern({ cmd: AuthEventType.NEED_USER_CREATION })
     createUserFromEvent(@Payload(new RpcValidationPipe()) data: UserBody) {
         return this.userService.create(data);
     }
 
-    @MessagePattern({ cmd: 'auth.setRefreshToken' })
+    @MessagePattern({ cmd: AuthEventType.SET_REFRESH_TOKEN })
     setRefreshTokenFromEvent(
         @Payload(new RpcValidationPipe()) data: SetRefreshTokenDto,
     ) {
