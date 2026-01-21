@@ -1,4 +1,4 @@
-import { UserDto, UserRoleType } from '@cdm/models';
+import { UserDto, UserRoleType } from 'cdm-models';
 import { Exclude } from 'class-transformer';
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
