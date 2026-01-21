@@ -44,10 +44,13 @@ export class UserService {
             password: hashedPassword,
         });
 
-        const userSaved = await this.repository.save(userCreated);
-
-        this.walletClient.emit("user.created", userSaved);
-        return userSaved.toDto()
+        try{
+            const userSaved = await this.repository.save(userCreated);
+            this.walletClient.emit("user.created", userSaved.id);
+            return userSaved.toDto()
+        } catch (error) {
+            throw new BadRequestException(error);
+        }
     }
 
     async setRefreshToken(body: SetRefreshTokenDto): Promise<UserDto> {
